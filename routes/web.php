@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,29 +69,46 @@ Route::get('student/{id}', function($id){
     // }
 });
 
+//MVC - Model, View, Controller
+// Route::get('/posts/{post}/comments/{comment}', function (string $postId, string $commentId) {
+//     return "This is post $postId and comment $commentId";
+// });
 
-Route::get('/posts/{post}/comments/{comment}', function (string $postId, string $commentId) {
-    return "This is post $postId and comment $commentId";
-});
-
-Route::get('/user/{name?}', function ($name = 'Ahmad') {
-    return $name;
-});
+// Route::get('/user/{name?}', function ($name = 'Ahmad') {
+//     return $name;
+// });
 
 
-Route::get('/category/clothes', function(){
-    return "this is cloth category";
-});
+// Route::get('/category/clothes', function(){
+//     return "this is cloth category";
+// });
 
-Route::get('/category/animals', function(){
-    return "this is animals category";
-});
+// Route::get('/category/animals', function(){
+//     return "this is animals category";
+// });
 
-Route::view('login','Auth.login');
+// Route::view('login','Auth.login');
 
-Route::post('login', function(){
-    // return "this is login route";
+Route::get('login', [ HomeController::class, 'login' ]);
+Route::post('login', [ HomeController::class, 'userLogin' ])->name('auth.login');
 
-    dd( request()->all() );
+Route::get('register', [ HomeController::class, 'register' ]);
+Route::post('register', [ HomeController::class, 'userRegister' ])->name('user.register');
 
-})->name('auth.login');
+// Route::post('login', function(){
+//     // return "this is login route";
+
+//     dd( request()->all() );
+
+// })->name('auth.login');
+
+
+// Route::get('register', function(){
+
+//     // dd( request()->all() );
+//     return view('Auth.register');
+// });
+
+// Route::post('register', function(){
+//     dd( request()->all() );
+// })->name('user.register');
