@@ -25,6 +25,16 @@
                         </ul>
                     </div>
                 @endif
+                {{-- @if(session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('message') }}
+                    </div>
+                @endif --}}
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{session('success')}}
+                    </div>
+                @endif
                 <form action="{{ route('user.register') }}" method="post">
                     @csrf
                     <div class="mb-3">
