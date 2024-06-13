@@ -37,7 +37,7 @@
                 @endif
                 {{-- <form action="{{ route('user.register') }}" method="post"> --}}
                 <form id="student_data">
-                    @csrf
+                    {{-- @csrf --}}
                     <div class="mb-3">
                         <label for="first_name" class="form-label">First Name</label>
                         <input type="text" name="first_name" class="form-control" id="first_name" value="{{ old('first_name') }}" />
@@ -67,7 +67,7 @@
     </div>
 
 
-    <SCript>
+    <script>
 
         let student_register_btn = document.getElementById('student_register_btn');
 
@@ -82,10 +82,12 @@
             data.append('email', document.getElementById('email').value);
             data.append('password', document.getElementById('password').value);
 
+            console.log(data);
             let xhttp = new XMLHttpRequest();
 
-            xhttp.onload = function() {
+            xhttp.onload = function(response) {
                 // logic after the response is ready
+                console.log(JSON.parse(xhttp.responseText));
             }
 
             xhttp.open("post", "{{ route('user.register') }}")
@@ -97,6 +99,6 @@
 
 
 
-    </SCript>
+    </script>
 </body>
 </html>

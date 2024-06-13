@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Abc;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    
     //  access modifiers -> public, protected, private
 
     public function login(Request $request){
@@ -71,14 +71,21 @@ class HomeController extends Controller
         // );
 
         // $student = new Student;
-        $student = Student::firstOrNew(['email' => $validated["email"]]);
+        // $student = Student::firstOrNew(['email' => $validated["email"]]);
+        // $student = new Student;
         
-        // $student->first_name    = $request->first_name;  
-        $student->last_name     = $validated["last_name"];
-        $student->email         = $validated["email"];  
-        $student->password      = $validated["password"];
-
-        if($student->save()):
+        // $student->first_name    = $validated["first_name"];  
+        // $student->last_name     = $validated["last_name"];
+        // $student->email         = $validated["email"];  
+        // $student->password      = $validated["password"];
+        $data = [
+            "first_name"    =>  $validated["first_name"],
+            "last_name"     =>  $validated["last_name"],
+            "email"         =>  $validated["email"],
+            "password"      =>  $validated["password"]
+            ];
+        // dd($data);
+        if(  Student::create($data) ):
             // return back()->withSuccess("Student Record is created");
 
             return response()->JSON([
