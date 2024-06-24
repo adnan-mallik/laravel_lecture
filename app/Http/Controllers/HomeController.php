@@ -24,9 +24,14 @@ class HomeController extends Controller
         return view('Auth.register');
     }
 
-    public function userRegister() {
-        // dd(request()->all());
-        $request = request()->all();
+    public function userRegister(Request $request) {
+
+        // return response()->json([
+        //     "status"  => "error",
+        //     "message" => "this is error message"
+        // ]);
+        // $request = request()->all();
+
         $rules = [
             'first_name' => 'required|min:3|max:30',
             'last_name'  => 'required|min:3|max:30',
@@ -38,7 +43,7 @@ class HomeController extends Controller
         ];
         // $validated = $request->validate($rules, $custom_messages);
 
-        $validator = Validator::make($request, $rules, $custom_messages); // scope resulution operator
+        $validator = Validator::make($request->all(), $rules, $custom_messages); // scope resulution operator
         // dd($validator->fails());
 
         if( $validator->fails() ){
@@ -78,14 +83,14 @@ class HomeController extends Controller
         // $student->last_name     = $validated["last_name"];
         // $student->email         = $validated["email"];  
         // $student->password      = $validated["password"];
-        $data = [
-            "first_name"    =>  $validated["first_name"],
-            "last_name"     =>  $validated["last_name"],
-            "email"         =>  $validated["email"],
-            "password"      =>  $validated["password"]
-            ];
-        // dd($data);
-        if(  Student::create($data) ):
+        // $data = [
+        //     "first_name"    =>  $validated["first_name"],
+        //     "last_name"     =>  $validated["last_name"],
+        //     "email"         =>  $validated["email"],
+        //     "password"      =>  $validated["password"]
+        // ];
+        // dd($validated);
+        if(  Student::create($validated) ):
             // return back()->withSuccess("Student Record is created");
 
             return response()->JSON([

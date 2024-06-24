@@ -9,11 +9,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    
     <div class="container">
         <div class="card mt-3">
             <div class="card-header">
-                <h3>Register</h3>
+                <h3>Register</h3> 
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -30,11 +29,12 @@
                         {{ session()->get('message') }}
                     </div>
                 @endif --}}
-                @if(session('success'))
+                {{-- <div class="alert alert-success d-none" id="success"></div> --}}
+                {{-- @if(session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
-                @endif
+                @endif --}}
                 {{-- <form action="{{ route('user.register') }}" method="post"> --}}
                 <form id="student_data">
                     {{-- @csrf --}}
@@ -66,7 +66,6 @@
         </div>
     </div>
 
-
     <script>
 
         let student_register_btn = document.getElementById('student_register_btn');
@@ -74,7 +73,6 @@
         student_register_btn.addEventListener('click', function(){
             
             let csrfToken = "{{ csrf_token() }}";
-
 
             var data = new FormData();
             data.append('first_name', document.getElementById('first_name').value);
@@ -86,8 +84,35 @@
             let xhttp = new XMLHttpRequest();
 
             xhttp.onload = function(response) {
-                // logic after the response is ready
-                console.log(JSON.parse(xhttp.responseText));
+
+                let res = JSON.parse(xhttp.responseText);
+
+                // if(response.status == 'success'){
+                //     let success = document.getElementById('success');
+                //     success.innerText = JSON.parse(xhttp.responseText).message;
+                // }
+
+                const newNode = document.createElement("div")
+                let html_message = '';
+                if(res.status == 'success'){
+                    html_message = `<div class="alert alert-success" id="success">${res.message}</div>`;
+                }else{
+                    html_message = `<div class="alert alert-danger" id="success">${res.message}</div>`;
+                }
+
+
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html_message, 'text/html');
+                let node = doc.body.firstChild;
+
+                console.log(node); // This will log the newly created DOM node
+
+                let parent_element = document.getElementsByClassName('card-body')[0]
+                parent_element.insertBefore(node, parent_element.firstChild);
+        
+                // setTimeout(() => {
+                //     success.classList.add('d-none')
+                // }, 2000);
             }
 
             xhttp.open("post", "{{ route('user.register') }}")
