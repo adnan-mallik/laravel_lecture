@@ -95,6 +95,10 @@ Route::post('login', [ HomeController::class, 'userLogin' ])->name('auth.login')
 Route::get('register', [ HomeController::class, 'register' ]);
 Route::post('register', [ HomeController::class, 'userRegister' ])->name('user.register');
 
+Route::get('students', [ HomeController::class, 'students' ]);
+Route::get('student/edit/{id}', [ HomeController::class, 'students' ])->name('student.edit');
+Route::get('student/delete/{id}', [ HomeController::class, 'students' ])->name('student.delete');
+
 // Route::post('login', function(){
 //     // return "this is login route";
 

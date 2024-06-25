@@ -11,19 +11,50 @@ class HomeController extends Controller
 {
     //  access modifiers -> public, protected, private
 
+    /**
+     * 
+     * 
+     * =============================================
+     *            Login
+     * =============================================
+     * 
+     */
     public function login(Request $request){
         return view('Auth.login');
     }
 
-
+    /**
+     * 
+     * 
+     * =============================================
+     *            Login
+     * =============================================
+     * 
+     */
     public function userLogin(Request $request) {
         dd(request()->all());
     }
 
+    /**
+     * 
+     * 
+     * =============================================
+     * @return view('Auth.register')
+     * =============================================
+     * 
+     */
     public function register(Request $request){
         return view('Auth.register');
     }
 
+    /**
+     * 
+     * 
+     * =============================================
+     *  @return json_response
+     * =============================================
+     * 
+     */
     public function userRegister(Request $request) {
 
         // return response()->json([
@@ -99,5 +130,19 @@ class HomeController extends Controller
             ]);
         endif;
         // dd( $student->user );
+    }
+
+    /**
+     * 
+     * 
+     * =============================================
+     *  @return view('students')
+     * =============================================
+     * 
+     */
+    public function students() {
+        $students = Student::all();
+        // dd($students);
+        return view('students.students', compact('students'));
     }
 }
