@@ -145,4 +145,20 @@ class HomeController extends Controller
         // dd($students);
         return view('students.students', compact('students'));
     }
+
+    /**
+     * 
+     * 
+     * =============================================
+     *  @return view('students')
+     * =============================================
+     * 
+     */
+    public function deleteStudent($id) {
+        $student = Student::findOrFail($id);
+
+        if( $student->delete() ):
+            return back()->withSuccess("Student Record is deleted");
+        endif;
+    }
 }
