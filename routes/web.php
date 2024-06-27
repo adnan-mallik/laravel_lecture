@@ -95,8 +95,9 @@ Route::post('login', [ HomeController::class, 'userLogin' ])->name('auth.login')
 Route::get('register', [ HomeController::class, 'register' ]);
 Route::post('register', [ HomeController::class, 'userRegister' ])->name('user.register');
 
-Route::get('students', [ HomeController::class, 'students' ]);
-Route::get('student/edit/{id}', [ HomeController::class, 'students' ])->name('student.edit');
+Route::get('students', [ HomeController::class, 'students' ])->name('students');
+Route::get('student/edit/{id}', [ HomeController::class, 'editStudent' ])->name('student.edit');
+Route::post('student/update/{id}', [ HomeController::class, 'updateStudent' ])->name('student.update');
 Route::get('student/delete/{id}', [ HomeController::class, 'deleteStudent' ])->name('student.delete');
 
 // Route::post('login', function(){

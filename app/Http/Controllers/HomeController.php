@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Abc;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -160,5 +161,46 @@ class HomeController extends Controller
         if( $student->delete() ):
             return back()->withSuccess("Student Record is deleted");
         endif;
+    }
+
+    public function editStudent($id) {
+        $student = Student::findOrFail($id);
+
+        return view('students.edit-student', compact('student'));
+
+    }
+
+    public function updateStudent(Request $request, $id) {
+        
+        $rules = [
+            'first_name' => 'required|min:3|max:30',
+            'last_name'  => 'required|min:3|max:30',
+        ];
+        $custom_messages = [
+            "first_name.required" => "First name can not be null"
+        ];
+        // $validated = $request->validate($rules, $custom_messages);
+
+        $validator = Validator::make($request->all(), $rules, $custom_messages); // scope resulution operator
+        // dd($validator->fails());
+
+        if( $validator->fails() ){
+            return response()->json([
+                "status"    => "errors",
+                "messages"  => $validator->errors()
+            ]);
+        }
+
+        // Retrieve the validated input...
+        $validated = $validator->validated();
+
+        if( Student::where('id', $id)->update($validated) ){
+
+            return redirect()->route('students')->withSuccess('Student Updated...');
+
+        }else{
+            return redirect()->route('students')->withError('Something went wrong');
+        }
+
     }
 }
