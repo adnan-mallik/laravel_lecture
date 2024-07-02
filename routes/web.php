@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('home', function(){
     // what is closure?
@@ -69,6 +69,9 @@ Route::get('student/{id}', function($id){
     // }
 });
 
+Route::get('user/{age}', function($age){
+    return $age;
+})->middleware('age.identify');
 //MVC - Model, View, Controller
 // Route::get('/posts/{post}/comments/{comment}', function (string $postId, string $commentId) {
 //     return "This is post $postId and comment $commentId";
